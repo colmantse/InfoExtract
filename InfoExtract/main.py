@@ -1,9 +1,13 @@
 #please switch to chcp 65001 
 #init
-import os,re,webbrowser
+import os,re,webbrowser, logging
 from itertools import chain
 from collections import Counter
 from gensim.summarization import textcleaner
+
+logging.basicConfig(level=logging.INFO)
+logger=logging.getLogger(__name__)
+
 #Define court object
 
 class court:
@@ -20,13 +24,13 @@ class court:
   def check_number(self, number):
     guard=number in range(0,self.noc)
     if guard is False:
-      print('case does not exist, please check the number of cases the court possesses.')
+      logger.error('case does not exist, please check the number of cases the court possesses.')
     return guard
 
   def check_case_proper(self, case):
     guard=type(case) is str and case is not None
     if guard is False:
-      print('case cannot be non-string and cannot be null')
+      logger.error('case cannot be non-string and cannot be null')
     return guard
 
   def check_keyword(self):
@@ -151,7 +155,7 @@ class court:
 def load(name):
   with open(name,'r',encoding='utf8') as f:
     tmp=f.read()
-  print(name+' loaded.')
+  logger.info(name+' loaded.')
   obj = court(tmp.split('.html\n/n/n'))
   for (i,x) in enumerate(obj.cases):
     if len(x)==0:
