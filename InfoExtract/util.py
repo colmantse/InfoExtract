@@ -1,5 +1,9 @@
-import re,zipfile,random
+import re,zipfile,random,logging
 from nltk import word_tokenize
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 '''
 Cleaning the sequences leaving only alphanumeric characters
 '''
@@ -116,13 +120,13 @@ def read_zip_data(filename):
   """Extract the first file enclosed in a zip file as a list of words"""
   with zipfile.ZipFile(filename) as f:
     data = tf.compat.as_str(f.read(f.namelist()[0])).split()
-  print('Data size:',len(data))
+  logger.info('Data size:',len(data))
   return data
 
 def read_data(filename):
   with open(filename, 'r', encoding='utf8') as f:
     data=f.read().split()
-  print('Data size:',len(data))
+  logger.info('Data size:',len(data))
   return data
 
 def read_large_data(filename):
@@ -132,7 +136,7 @@ def read_large_data(filename):
     while len(raw)!=0:
       read.extend(raw[:100000000].split())
       raw=raw[100000000:]
-    print('Data size:',len(read))
+    logger.info('Data size:',len(read))
     return read
 
 '''
@@ -146,9 +150,9 @@ def maybe_download(filename, expected_bytes):
     filename, _ = urlretrieve(url + filename, filename)
   statinfo = os.stat(filename)
   if statinfo.st_size == expected_bytes:
-    print('Found and verified %s' % filename)
+    logger.info('Found and verified %s' % filename)
   else:
-    print(statinfo.st_size)
+    logger.error(statinfo.st_size)
     raise Exception(
       'Failed to verify ' + filename + '. Can you get to it with a browser?')
   return filename
