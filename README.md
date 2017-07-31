@@ -1,2 +1,2 @@
 # InfoExtract
-InfoExtract is a NLP project supporting different needs of academics from arts and humanities
+There are different scripts in this repository, some useful, others not so.
