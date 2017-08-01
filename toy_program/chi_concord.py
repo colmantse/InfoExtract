@@ -35,6 +35,7 @@ class text_holder:
 #clean function for neat presentation
 def clean(string):
   return re.sub(r'\s+',' ',string)
+  #string.index(keyword)
 
 def main():
   args=parser.parse_args()
